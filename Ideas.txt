@@ -1,0 +1,3 @@
+Bank account API
+
+Customer can have account(s), transaction history, transfer between accounts, withdraw, deposit, create new accounts or customers
