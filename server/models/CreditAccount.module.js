@@ -2,14 +2,14 @@ const mongoose = require('mongoose')
 
 // interest payout will need changing
 
-const savingsAccountSchema = new mongoose.Schema({
+const creditAccountSchema = new mongoose.Schema({
     accountNumber:{
         type:Number,
         required:[true, "Account must have a number"]
     },
     timestamps:{
         dateOpened:created_at,
-        lastTransaction:updated_at
+        transaction:updated_at
     },
     currentBalance:{
         type:Number
@@ -19,8 +19,9 @@ const savingsAccountSchema = new mongoose.Schema({
     },
     interestPayout:{
         type:String
-    }
+    },
+    transactions:[]
 })
 
-const SavingsAccount = mongoose.model('SavingsAccount', savingsAccountSchema)
-module.exports = SavingsAccount
+const CreditAccount = mongoose.model('CreditAccount', creditAccountSchema)
+module.exports = CreditAccount

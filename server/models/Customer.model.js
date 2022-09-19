@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+
 const customerSchema = new mongoose.Schema({
     firstName:{
         type:String,
@@ -82,20 +83,8 @@ const customerSchema = new mongoose.Schema({
         minLength:[10, 'Phone number must be 10 digits'],
         maxLength:[10, 'Phone number must be 10 digits']
     },
-    accounts:[
-        {
-            accountNumber:Number,
-            accountType:String,   //checking/saving/credit line, if logic for credit cards, credit limit, interest rate, min payment, pay in full, payment frequency? maybe build a seperate thing for CC?
-            timestamps:{
-                dateOpened:created_at,
-                lastTransaction:updated_at
-            },
-            currentBalance:Number,
-
-
-
-            
-
-        }
-    ]
+    accounts:[]
 })
+
+const Customer = mongoose.model('Customer', customerSchema)
+module.exports = Customer

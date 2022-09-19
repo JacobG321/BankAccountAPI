@@ -9,7 +9,7 @@ const savingsAccountSchema = new mongoose.Schema({
     },
     timestamps:{
         dateOpened:created_at,
-        lastTransaction:updated_at
+        transaction:updated_at
     },
     currentBalance:{
         type:Number
@@ -19,7 +19,8 @@ const savingsAccountSchema = new mongoose.Schema({
     },
     interestPayout:{
         type:String
-    }
+    },
+    transactions:[]
 })
 
 const SavingsAccount = mongoose.model('SavingsAccount', savingsAccountSchema)
