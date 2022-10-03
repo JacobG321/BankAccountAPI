@@ -1,0 +1,19 @@
+.landingPageContainer{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.leftSide {
+    border: solid 1px;
+    text-align: center;
+}
+
+.rightSide {
+    border: solid 1px;
+    text-align: center;
+}
+
+.rightSide form{
+    display: flex;
+    flex-direction: column;
+}

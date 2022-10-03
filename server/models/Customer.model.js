@@ -55,8 +55,7 @@ const customerSchema = new mongoose.Schema({
             state:{
                 type:String,
                 required:[true, 'Customer must have a state'],
-                minLength:[2, 'Please choose a state'],
-                // create a list of states to add here, make a seperate module and import it
+                minLength:[4, 'State must be at least 4 characters long'],
             },
             zipcode:{
                 type:Number,
@@ -83,6 +82,10 @@ const customerSchema = new mongoose.Schema({
         minLength:[10, 'Phone number must be 10 digits'],
         maxLength:[10, 'Phone number must be 10 digits']
     },
+    // password:{
+    //     required:[true, 'Customer must have a password'],
+    //     minLength:[5, 'Password must be at least 5 characters']
+    // },
     accounts:[]
 })
 
