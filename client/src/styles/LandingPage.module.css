@@ -1,19 +1,95 @@
-.landingPageContainer{
+.mask {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+.intImg {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    object-fit: cover;
+}
+
+.mask::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+    opacity: 0.8;
+}
+
+.landingPageContent{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
     display: flex;
     justify-content: space-evenly;
+    width: 100%;
+    margin-top: 1rem;
 }
 
 .leftSide {
-    border: solid 1px;
+    color: white;
     text-align: center;
+    width: 40%;
+    font-size: 1.75rem;
+}
+
+.leftSide button {
+    background-color: white;
+    padding: 8px;
+    width: 25%;
+    border-radius: 25px;
+    font-size: 18px;
+    cursor: pointer;
 }
 
 .rightSide {
+    background-color: white;
+    border-radius: 25px;
     border: solid 1px;
     text-align: center;
+    width: 275px;
+    height: 175px;
+    padding: 20px 25px;
 }
 
 .rightSide form{
+    text-align: center;
     display: flex;
     flex-direction: column;
+}
+
+.rightSide form input {
+    border: none;
+    border-bottom: 1px solid ;
+    resize: none;
+    outline: none;
+    font-size: 1rem;
+    width: 90%;
+    color: black;
+}
+
+.inputFieldLabel {
+    text-align: left;
+    margin-left: 11px;
+}
+
+.rightSide form button {
+    margin-top: 10px;
+    width: 60%;
+    border-radius: 25px;
+    border: solid black 1px;
+    padding: 5px;
+    align-self: center;
+    background-color: red;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
 }

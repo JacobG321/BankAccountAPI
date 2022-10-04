@@ -1,0 +1,49 @@
+.createContainer {
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.radioBtns {
+    width: 100px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.personInfo {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 600px;
+}
+
+.addresses {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 600px;
+}
+
+.labels{
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    width: 170px;
+}
+.inputs{
+    display: flex;
+    flex-direction: column;
+}
+
+.labels label {
+    margin-bottom: 5px;
+}
+
+.inputs input {
+    margin-bottom: 5px;
+}
