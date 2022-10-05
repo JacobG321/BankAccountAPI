@@ -8,60 +8,65 @@ import axios from 'axios';
 
 const CreateAccount = () => {
 
-  const billingNotMailing =  
-  <div>
-    <h2>Billing address</h2>
-    <div className={styles.addresses}>
-      <div className={styles.labels}>
-        <label htmlFor="streetAddress">Street address</label>
-        <label htmlFor="city">City</label>
-        <label htmlFor="state">State</label>
-        <label htmlFor="zipcode">Zipcode</label>
-      </div>
-
-      <div className={styles.inputs}>
-        <input type="text" htmlFor='streetAddress' name="streetAddress" id="streetAddress" />
-        <input type="text" htmlFor='city' name="city" id="city" />
-        <input type="text" htmlFor='state' name="state" id="state" />
-        <input type="text" htmlFor='zipcode' name="zipcode" id="zipcode" />
-      </div>
-    </div>
-  </div>
-
   const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [addressMailing,setAddressMailing] = useState({})
-  const [addressBilling,setAddressBilling] = useState({})
   const [socialSecurityNumber, setSocialSecurityNumber] = useState('')
   const [email, setEmail] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState([])
+  const [addressMailing,setAddressMailing] = useState({})
+  const [addressBilling,setAddressBilling] = useState(null)
+  const [billingSame, setBillingSame] = useState(true)
 
 
-  let billingSameAsMailing = true
-  const [isBillMail, setIsBillMail] = useState()
-  const billingIsMailing = (e) => {
-    billingSameAsMailing = e
+  // const BillingNotMailing =  () => (
+  // <div>
+  //   <h2>Billing address</h2>
+  //   <div className={styles.addresses}>
+  //     <div className={styles.labels}>
+  //       <label htmlFor="streetAddress">Street address</label>
+  //       <label htmlFor="city">City</label>
+  //       <label htmlFor="state">State</label>
+  //       <label htmlFor="zipcode">Zipcode</label>
+  //     </div>
 
-    if(billingSameAsMailing==="true"){
-      console.log(billingSameAsMailing)
-      setIsBillMail()
-    }else{
-      setIsBillMail(billingNotMailing)
-    }
-  }
+  //     <div className={styles.inputs}>
+  //               <input type="text" htmlFor='streetAddress' name="streetAddress" id="streetAddress"  onChange = {(e)=>billingStreetAddressHandler(e.target.value)}/>
+  //               <input type="text" htmlFor='city' name="city" id="city" onChange = {(e)=>billingCityHandler(e.target.value)}/>
+  //               <input type="text" htmlFor='state' name="state" id="state" onChange = {(e)=>billingStateHandler(e.target.value)}/>
+  //               <input type="text" htmlFor='zipcode' name="zipcode" id="zipcode"  onChange = {(e)=>billingZipcodeHandler(e.target.value)}/>
+  //     </div>
+  //   </div>
+  // </div>
+  // )
+
+  // let billingSameAsMailing = "true"
+  
+  // const [isBillMail, setIsBillMail] = useState()
+
+  // const billingIsMailing = (e) => {
+  //   billingSameAsMailing = e
+  //   if(billingSameAsMailing==="true"){
+  //     console.log(billingSameAsMailing)
+  //     setIsBillMail()
+  //   }else{
+  //     setIsBillMail(BillingNotMailing)
+  //   }
+  // }
 
   const onSubmitHandler = (e) => {
+    console.log(addressBilling,"billing")
+    console.log(addressMailing,"mailing")
     e.preventDefault();
     axios.post('http://localhost:8000/api/customer', {
       firstName,
       middleName,
       lastName,
       addressMailing,
-      addressBilling,
+      addressBilling:addressBilling || addressMailing,
       socialSecurityNumber,
       email,
       phoneNumber,
@@ -98,6 +103,10 @@ const CreateAccount = () => {
 
   }
 
+  let streetAddressInput = document.getElementById('streetAddress')
+  let cityInput = document.getElementById('city')
+  let stateInput = document.getElementById('state')
+  let zipcodeInput = document.getElementById('zipcode')
 
   const streetAddressHandler = (e) => {
     setAddressMailing({...addressMailing, streetAddress:e})
@@ -113,12 +122,26 @@ const CreateAccount = () => {
     setAddressMailing({...addressMailing,zipcode:e})
   }
 
-  let streetAddressInput = document.getElementById('streetAddress')
-  let cityInput = document.getElementById('city')
-  let stateInput = document.getElementById('state')
-  let zipcodeInput = document.getElementById('zipcode')
+  let billingStreetAddressInput = document.getElementById('streetAddress')
+  let billingCityInput = document.getElementById('city')
+  let billingStateInput = document.getElementById('state')
+  let billingZipcodeInput = document.getElementById('zipcode')
 
-  console.log(addressMailing)
+  const billingStreetAddressHandler = (e) => {
+    setAddressBilling({...addressBilling, streetAddress:e})
+  }
+  const billingCityHandler = (e) => {
+    setAddressBilling({...addressBilling,city:e})
+  }
+  const billingStateHandler = (e) => {
+    setAddressBilling({...addressBilling,state:e})
+  }
+  const billingZipcodeHandler = (e) => {
+    e = Number(e)
+    setAddressBilling({...addressBilling,zipcode:e})
+  }
+
+
 
   return (
 
@@ -169,12 +192,32 @@ const CreateAccount = () => {
               <p>Is your billing address the same as the mailing address?</p>
                 <div className={styles.radioBtns}>
                     <label htmlFor="yes">Yes</label>
-                    <input type="radio" onChange={(e)=>billingIsMailing(e.target.value)} name='billingSameAsMailing' id="yes" value="true" defaultChecked="checked"/>
+                    <input type="radio" onClick={()=>setBillingSame(true)} name='billingSameAsMailing' id="yes" value="true" defaultChecked="default"/>
                     <label htmlFor="no">No</label>
-                    <input type="radio" onChange={(e)=>billingIsMailing(e.target.value)} name='billingSameAsMailing' id="no" value="false"/>
+                    <input type="radio" onClick={()=>setBillingSame(false)} name='billingSameAsMailing' id="no" value="false"/>
                 </div>
 
-            {isBillMail}
+            {
+            billingSame?
+              null:  <div>
+              <h2>Billing address</h2>
+              <div className={styles.addresses}>
+                <div className={styles.labels}>
+                  <label htmlFor="streetAddress">Street address</label>
+                  <label htmlFor="city">City</label>
+                  <label htmlFor="state">State</label>
+                  <label htmlFor="zipcode">Zipcode</label>
+                </div>
+          
+                <div className={styles.inputs}>
+                          <input type="text" htmlFor='streetAddress' name="streetAddress" id="streetAddress"  onChange = {(e)=>billingStreetAddressHandler(e.target.value)}/>
+                          <input type="text" htmlFor='city' name="city" id="city" onChange = {(e)=>billingCityHandler(e.target.value)}/>
+                          <input type="text" htmlFor='state' name="state" id="state" onChange = {(e)=>billingStateHandler(e.target.value)}/>
+                          <input type="text" htmlFor='zipcode' name="zipcode" id="zipcode"  onChange = {(e)=>billingZipcodeHandler(e.target.value)}/>
+                </div>
+              </div>
+            </div>
+            }
 
 
             <h2>Login information</h2>

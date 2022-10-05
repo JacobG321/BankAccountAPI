@@ -3,3 +3,7 @@ Bank account API
 Customer can have account(s), transaction history, transfer between accounts, withdraw, deposit, create new accounts or customers
 
 make it so they can input info, or random generate a few users using a button
+
+Libraries
+
+npm i bcrypt
