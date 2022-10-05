@@ -16,8 +16,7 @@ const customerSchema = new mongoose.Schema({
         required:[true, 'Customer must have a last name'],
         minLength:[3, "Customer's last name must be at least 3 characters long"]
     },
-    addresses:{
-        mailing:{
+    addressMailing:{
             streetAddress:{
                 type:String,
                 required:[true, 'Customer must have an address'],
@@ -41,30 +40,29 @@ const customerSchema = new mongoose.Schema({
                 maxLength:[5, 'Zipcode must be 5 digits']
             }
         },
-        billing:{
-            streetAddress:{
-                type:String,
-                required:[true, 'Customer must have an address'],
-                minLength:[5, "Customer's address must be at least 5 characters long"]
-            },
-            city:{
-                type:String,
-                required:[true, 'Customer must have city'],
-                minLength:[3, "Customer's city must be at least 3 characters long"]
-            },
-            state:{
-                type:String,
-                required:[true, 'Customer must have a state'],
-                minLength:[4, 'State must be at least 4 characters long'],
-            },
-            zipcode:{
-                type:Number,
-                required:[true, 'Customer must have a zipcode'],
-                minLength:[5, 'Zipcode must be 5 digits'],
-                maxLength:[5, 'Zipcode must be 5 digits']
-            }
-        },
-    },
+    // billing:{
+    //         streetAddress:{
+    //             type:String,
+    //             required:[true, 'Customer must have an address'],
+    //             minLength:[5, "Customer's address must be at least 5 characters long"]
+    //         },
+    //         city:{
+    //             type:String,
+    //             required:[true, 'Customer must have city'],
+    //             minLength:[3, "Customer's city must be at least 3 characters long"]
+    //         },
+    //         state:{
+    //             type:String,
+    //             required:[true, 'Customer must have a state'],
+    //             minLength:[4, 'State must be at least 4 characters long'],
+    //         },
+    //         zipcode:{
+    //             type:Number,
+    //             required:[true, 'Customer must have a zipcode'],
+    //             minLength:[5, 'Zipcode must be 5 digits'],
+    //             maxLength:[5, 'Zipcode must be 5 digits']
+    //         },
+    // },
     socialSecurityNumber:{
         type:Number,
         required:[true, 'Customer must have a social security number'],

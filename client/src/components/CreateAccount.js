@@ -31,7 +31,7 @@ const CreateAccount = () => {
   const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
   const [lastName, setLastName] = useState('')
-  let addressMailing = {streetAddress:"", city:"", state:"", zipcode:0}
+  const [addressMailing,setAddressMailing] = useState({})
   const [addressBilling,setAddressBilling] = useState({})
   const [socialSecurityNumber, setSocialSecurityNumber] = useState('')
   const [email, setEmail] = useState('')
@@ -72,6 +72,7 @@ const CreateAccount = () => {
       setFirstName('')
       setMiddleName('')
       setLastName('')
+      setAddressMailing({})
       setAddressBilling({})
       setSocialSecurityNumber('')
       setEmail('')
@@ -79,6 +80,12 @@ const CreateAccount = () => {
       setPassword('')
       setUsername('')
       setPassword('')
+
+      streetAddressInput.value = ('')
+      cityInput.value = ('')
+      stateInput.value = ('')
+      zipcodeInput.value = ('')
+
     })
     .catch(err=>{
       const errorResponse = err.response.data.errors
@@ -88,22 +95,29 @@ const CreateAccount = () => {
       }
       setErrors(errorArray)
   })
+
   }
 
+
   const streetAddressHandler = (e) => {
-    addressMailing = {streetAddress:e}
+    setAddressMailing({...addressMailing, streetAddress:e})
   }
   const cityHandler = (e) => {
-    addressMailing = {city:e}
+    setAddressMailing({...addressMailing,city:e})
   }
   const stateHandler = (e) => {
-    addressMailing = {state:e}
+    setAddressMailing({...addressMailing,state:e})
   }
   const zipcodeHandler = (e) => {
     e = Number(e)
-    addressMailing={zipcode:e}
+    setAddressMailing({...addressMailing,zipcode:e})
   }
-  console.log(addressMailing)
+
+  let streetAddressInput = document.getElementById('streetAddress')
+  let cityInput = document.getElementById('city')
+  let stateInput = document.getElementById('state')
+  let zipcodeInput = document.getElementById('zipcode')
+
   console.log(addressMailing)
 
   return (
@@ -112,7 +126,7 @@ const CreateAccount = () => {
       <NonUserNavBar/>
       <div className={styles.createContainer}>
 
-        <h1>Create a new account</h1>
+        <h1>New Jase account</h1>
         {errors.map((err, index) => <p className={styles.error} key={index}>{err}</p>)}
           <form onSubmit={onSubmitHandler} className={styles.form}>
             <div className={styles.personInfo}>
@@ -145,7 +159,7 @@ const CreateAccount = () => {
 
               <div className={styles.inputs}>
                 <input type="text" htmlFor='streetAddress' name="streetAddress" id="streetAddress"  onChange = {(e)=>streetAddressHandler(e.target.value)}/>
-                <input type="text" htmlFor='city' name="city" id="city"  onChange = {(e)=>cityHandler(e.target.value)}/>
+                <input type="text" htmlFor='city' name="city" id="city"   onChange = {(e)=>cityHandler(e.target.value)}/>
                 <input type="text" htmlFor='state' name="state" id="state"  onChange = {(e)=>stateHandler(e.target.value)}/>
                 <input type="text" htmlFor='zipcode' name="zipcode" id="zipcode"  onChange = {(e)=>zipcodeHandler(e.target.value)}/>
               </div>
@@ -172,7 +186,7 @@ const CreateAccount = () => {
               </div>
 
               <div className={styles.inputs}>
-                <input type="text" htmlFor='username' name="username" id="username" />
+                <input type="text" htmlFor='username' name="username" id="username" value={username} onChange = {(e)=>setUsername(e.target.value)}/>
                 <input type="text" htmlFor='password' name="password" id="password" />
                 <input type="text" htmlFor='confirmPassword' name="confirmPassword" id="confirmPassword" />
               </div>
