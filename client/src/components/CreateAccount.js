@@ -1,19 +1,120 @@
-import React from 'react'
+import React, { useState } from 'react'
+import {useNavigate, Link} from "react-router-dom";
 import NonUserNavBar from './NonUserNavBar'
 import styles from '../styles/CreateAccount.module.css'
+import axios from 'axios';
 
 
 
 const CreateAccount = () => {
 
+  const billingNotMailing =  
+  <div>
+    <h2>Billing address</h2>
+    <div className={styles.addresses}>
+      <div className={styles.labels}>
+        <label htmlFor="streetAddress">Street address</label>
+        <label htmlFor="city">City</label>
+        <label htmlFor="state">State</label>
+        <label htmlFor="zipcode">Zipcode</label>
+      </div>
+
+      <div className={styles.inputs}>
+        <input type="text" htmlFor='streetAddress' name="streetAddress" id="streetAddress" />
+        <input type="text" htmlFor='city' name="city" id="city" />
+        <input type="text" htmlFor='state' name="state" id="state" />
+        <input type="text" htmlFor='zipcode' name="zipcode" id="zipcode" />
+      </div>
+    </div>
+  </div>
+
+  const [firstName, setFirstName] = useState('')
+  const [middleName, setMiddleName] = useState('')
+  const [lastName, setLastName] = useState('')
+  let addressMailing = {streetAddress:"", city:"", state:"", zipcode:0}
+  const [addressBilling,setAddressBilling] = useState({})
+  const [socialSecurityNumber, setSocialSecurityNumber] = useState('')
+  const [email, setEmail] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState([])
+
+
+  let billingSameAsMailing = true
+  const [isBillMail, setIsBillMail] = useState()
+  const billingIsMailing = (e) => {
+    billingSameAsMailing = e
+
+    if(billingSameAsMailing==="true"){
+      console.log(billingSameAsMailing)
+      setIsBillMail()
+    }else{
+      setIsBillMail(billingNotMailing)
+    }
+  }
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    axios.post('http://localhost:8000/api/customer', {
+      firstName,
+      middleName,
+      lastName,
+      addressMailing,
+      addressBilling,
+      socialSecurityNumber,
+      email,
+      phoneNumber,
+      username,
+      password,
+    })
+    .then(res=>{
+      setFirstName('')
+      setMiddleName('')
+      setLastName('')
+      setAddressBilling({})
+      setSocialSecurityNumber('')
+      setEmail('')
+      setPhoneNumber('')
+      setPassword('')
+      setUsername('')
+      setPassword('')
+    })
+    .catch(err=>{
+      const errorResponse = err.response.data.errors
+      const errorArray = []
+      for (const key of Object.keys(errorResponse)) {
+          errorArray.push(errorResponse[key].message)
+      }
+      setErrors(errorArray)
+  })
+  }
+
+  const streetAddressHandler = (e) => {
+    addressMailing = {streetAddress:e}
+  }
+  const cityHandler = (e) => {
+    addressMailing = {city:e}
+  }
+  const stateHandler = (e) => {
+    addressMailing = {state:e}
+  }
+  const zipcodeHandler = (e) => {
+    e = Number(e)
+    addressMailing={zipcode:e}
+  }
+  console.log(addressMailing)
+  console.log(addressMailing)
+
   return (
+
     <div>
       <NonUserNavBar/>
       <div className={styles.createContainer}>
 
         <h1>Create a new account</h1>
-
-          <form action="" className={styles.form}>
+        {errors.map((err, index) => <p className={styles.error} key={index}>{err}</p>)}
+          <form onSubmit={onSubmitHandler} className={styles.form}>
             <div className={styles.personInfo}>
               <div className={styles.labels}>
                 <label htmlFor="firstName">First name</label>
@@ -24,12 +125,12 @@ const CreateAccount = () => {
                 <label htmlFor="phoneNumber">Phone number</label>
               </div>
               <div className={styles.inputs}>
-                <input type="text" htmlFor='firstName' name="firstName" id="firstName" />          
-                <input type="text" htmlFor='middleName' name="middleName" id="middleName" />
-                <input type="text" htmlFor='lastName' name="lastName" id="lastName" />
-                <input type="text" htmlFor='socialSecurityNumber' name="socialSecurityNumber" id="socialSecurityNumber" />
-                <input type="text" htmlFor='email' name="email" id="email" />
-                <input type="text" htmlFor='phoneNumber' name="phoneNumber" id="phoneNumber" />
+                <input type="text" htmlFor='firstName' name="firstName" id="firstName" value={firstName} onChange = {(e)=>setFirstName(e.target.value)}/>
+                <input type="text" htmlFor='middleName' name="middleName" id="middleName" value={middleName} onChange = {(e)=>setMiddleName(e.target.value)}/>
+                <input type="text" htmlFor='lastName' name="lastName" id="lastName" value={lastName} onChange = {(e)=>setLastName(e.target.value)}/>
+                <input type="text" htmlFor='socialSecurityNumber' name="socialSecurityNumber" id="socialSecurityNumber" value={socialSecurityNumber} onChange = {(e)=>setSocialSecurityNumber(e.target.value)}/>
+                <input type="text" htmlFor='email' name="email" id="email" value={email} onChange = {(e)=>setEmail(e.target.value)}/>
+                <input type="text" htmlFor='phoneNumber' name="phoneNumber" id="phoneNumber" value={phoneNumber} onChange = {(e)=>setPhoneNumber(e.target.value)}/>
               </div>
             </div>
 
@@ -43,10 +144,10 @@ const CreateAccount = () => {
               </div>
 
               <div className={styles.inputs}>
-                <input type="text" htmlFor='streetAddress' name="streetAddress" id="streetAddress" />
-                <input type="text" htmlFor='city' name="city" id="city" />
-                <input type="text" htmlFor='state' name="state" id="state" />
-                <input type="text" htmlFor='zipcode' name="zipcode" id="zipcode" />
+                <input type="text" htmlFor='streetAddress' name="streetAddress" id="streetAddress"  onChange = {(e)=>streetAddressHandler(e.target.value)}/>
+                <input type="text" htmlFor='city' name="city" id="city"  onChange = {(e)=>cityHandler(e.target.value)}/>
+                <input type="text" htmlFor='state' name="state" id="state"  onChange = {(e)=>stateHandler(e.target.value)}/>
+                <input type="text" htmlFor='zipcode' name="zipcode" id="zipcode"  onChange = {(e)=>zipcodeHandler(e.target.value)}/>
               </div>
             </div>
 
@@ -54,27 +155,12 @@ const CreateAccount = () => {
               <p>Is your billing address the same as the mailing address?</p>
                 <div className={styles.radioBtns}>
                     <label htmlFor="yes">Yes</label>
-                    <input type="radio" name='billingSameAsMailing' id="yes" value="true" checked="checked"/>
+                    <input type="radio" onChange={(e)=>billingIsMailing(e.target.value)} name='billingSameAsMailing' id="yes" value="true" defaultChecked="checked"/>
                     <label htmlFor="no">No</label>
-                    <input type="radio" name={billingSameAsMailing} id="no" value="false"/>
+                    <input type="radio" onChange={(e)=>billingIsMailing(e.target.value)} name='billingSameAsMailing' id="no" value="false"/>
                 </div>
 
-            <h2>Billing address</h2>
-            <div className={styles.addresses}>
-              <div className={styles.labels}>
-                <label htmlFor="streetAddress">Street address</label>
-                <label htmlFor="city">City</label>
-                <label htmlFor="state">State</label>
-                <label htmlFor="zipcode">Zipcode</label>
-              </div>
-
-              <div className={styles.inputs}>
-                <input type="text" htmlFor='streetAddress' name="streetAddress" id="streetAddress" />
-                <input type="text" htmlFor='city' name="city" id="city" />
-                <input type="text" htmlFor='state' name="state" id="state" />
-                <input type="text" htmlFor='zipcode' name="zipcode" id="zipcode" />
-              </div>
-            </div>
+            {isBillMail}
 
 
             <h2>Login information</h2>
@@ -91,7 +177,7 @@ const CreateAccount = () => {
                 <input type="text" htmlFor='confirmPassword' name="confirmPassword" id="confirmPassword" />
               </div>
             </div>
-            <button>Submit information</button>
+            <button type="submit">Submit information</button>
           </form>
       </div>
     </div>

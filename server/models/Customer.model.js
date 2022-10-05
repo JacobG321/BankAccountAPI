@@ -82,6 +82,11 @@ const customerSchema = new mongoose.Schema({
         minLength:[10, 'Phone number must be 10 digits'],
         maxLength:[10, 'Phone number must be 10 digits']
     },
+    username:{
+        type:String,
+        required:[true, 'Customer must have a username'],
+        minLength:[3, "Customer's username must be at least 3 characters long"]
+    },
     // password:{
     //     required:[true, 'Customer must have a password'],
     //     minLength:[5, 'Password must be at least 5 characters']
