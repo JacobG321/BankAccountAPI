@@ -3,7 +3,7 @@ const Customer = require("../models/Customer.model")
 const CustomerController = {
 
     // Create
-    create:(req,res) =>{
+    register:(req,res) =>{
         Customer.create(req.body)
         .then((customer)=>{
             res.status(201).json({customer:customer})

@@ -7,3 +7,5 @@ make it so they can input info, or random generate a few users using a button
 Libraries
 
 npm i bcrypt
+npm i dotenv
+npm i jsonwebtoken cookie-parser

@@ -16,46 +16,12 @@ const CreateAccount = () => {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [errors, setErrors] = useState([])
   const [addressMailing,setAddressMailing] = useState({})
   const [addressBilling,setAddressBilling] = useState(null)
   const [billingSame, setBillingSame] = useState(true)
 
-
-  // const BillingNotMailing =  () => (
-  // <div>
-  //   <h2>Billing address</h2>
-  //   <div className={styles.addresses}>
-  //     <div className={styles.labels}>
-  //       <label htmlFor="streetAddress">Street address</label>
-  //       <label htmlFor="city">City</label>
-  //       <label htmlFor="state">State</label>
-  //       <label htmlFor="zipcode">Zipcode</label>
-  //     </div>
-
-  //     <div className={styles.inputs}>
-  //               <input type="text" htmlFor='streetAddress' name="streetAddress" id="streetAddress"  onChange = {(e)=>billingStreetAddressHandler(e.target.value)}/>
-  //               <input type="text" htmlFor='city' name="city" id="city" onChange = {(e)=>billingCityHandler(e.target.value)}/>
-  //               <input type="text" htmlFor='state' name="state" id="state" onChange = {(e)=>billingStateHandler(e.target.value)}/>
-  //               <input type="text" htmlFor='zipcode' name="zipcode" id="zipcode"  onChange = {(e)=>billingZipcodeHandler(e.target.value)}/>
-  //     </div>
-  //   </div>
-  // </div>
-  // )
-
-  // let billingSameAsMailing = "true"
-  
-  // const [isBillMail, setIsBillMail] = useState()
-
-  // const billingIsMailing = (e) => {
-  //   billingSameAsMailing = e
-  //   if(billingSameAsMailing==="true"){
-  //     console.log(billingSameAsMailing)
-  //     setIsBillMail()
-  //   }else{
-  //     setIsBillMail(BillingNotMailing)
-  //   }
-  // }
 
   const onSubmitHandler = (e) => {
     console.log(addressBilling,"billing")
@@ -72,6 +38,7 @@ const CreateAccount = () => {
       phoneNumber,
       username,
       password,
+      confirmPassword
     })
     .then(res=>{
       setFirstName('')
@@ -85,6 +52,7 @@ const CreateAccount = () => {
       setPassword('')
       setUsername('')
       setPassword('')
+      setConfirmPassword('')
 
       streetAddressInput.value = ('')
       cityInput.value = ('')
@@ -230,8 +198,8 @@ const CreateAccount = () => {
 
               <div className={styles.inputs}>
                 <input type="text" htmlFor='username' name="username" id="username" value={username} onChange = {(e)=>setUsername(e.target.value)}/>
-                <input type="text" htmlFor='password' name="password" id="password" />
-                <input type="text" htmlFor='confirmPassword' name="confirmPassword" id="confirmPassword" />
+                <input type="text" htmlFor='password' name="password" id="password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
+                <input type="text" htmlFor='confirmPassword' name="confirmPassword" id="confirmPassword" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)}/>
               </div>
             </div>
             <button type="submit">Submit information</button>

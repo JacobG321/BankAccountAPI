@@ -2,7 +2,7 @@ const CustomerController = require("../controller/customer.controller")
 
 const routes = (app) => {
 
-    app.post('/api/customer', CustomerController.create)
+    app.post('/api/customer', CustomerController.register)
     
     // get all
     app.get('/api/customers', CustomerController.getAll)
