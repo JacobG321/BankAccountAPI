@@ -7,7 +7,7 @@ module.exports={
   authenticate: (req, res, next) => {
   jwt.verify(req.cookies.customerToken, key, (err, payload) => {
     if (err) { 
-      res.status(401).json({verifieddd: false});
+      res.status(401).json({verified: false});
     } else {
       req.Token = payload
       next();
@@ -16,15 +16,13 @@ module.exports={
   },
 
   isLoggedIn:(req, res) => {
-    // console.log(req.cookies)
     jwt.verify(req.cookies.customerToken, key, async (err, payload) => {
       if (err) { 
         res.status(401).json({verified: false});
       } else {
         const customer = await Customer.findOne({_id:payload.id})
-        const {_id,firstName} = customer
-        return res.json({customer:{id:_id,name:firstName}})
-        
+        const {_id,username} = customer
+        return res.json({customer:{id:_id,username:username}})
       }
     })
     },

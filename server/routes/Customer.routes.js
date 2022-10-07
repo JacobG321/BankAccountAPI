@@ -1,5 +1,5 @@
 const CustomerController = require("../controller/customer.controller")
-const { authenticate,isLoggedIn } = require('../config/jwt.config')
+const {isLoggedIn } = require('../config/jwt.config')
 
 
 const routes = (app) => {
@@ -7,7 +7,7 @@ const routes = (app) => {
     // create account
     app.post('/api/customer', CustomerController.register)
     // login
-    app.get('/api/login', CustomerController.login)
+    app.post('/api/login', CustomerController.login)
 
     //get all
     app.get('/api/customers', CustomerController.getAll)
@@ -18,7 +18,9 @@ const routes = (app) => {
     //Destroy
     app.delete('/api/customer/:id',CustomerController.logout)
     // login checker
-    app.post('/api/isLoggedIn',isLoggedIn)
+    app.post('/api/isLoggedIn', isLoggedIn)
+
+    // use effect and axios post route to protect routes, {}, {withCredentials:true} to ensure login, use a catch to send em back.
 
 }
 

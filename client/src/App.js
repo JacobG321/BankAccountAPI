@@ -14,20 +14,18 @@ function App() {
 
   useEffect(()=>{
     axios.post('http://localhost:8000/api/isLoggedIn',{},{withCredentials:true})
-    .then((user)=>{
-      console.log(user.data)
+    .then((customer)=>{
+      console.log(customer.data)
       dispatch({
-        type:"SET_USER",
-        payload:user.data
+        type:"SET_CUSTOMER",
+        payload:customer.data
       })
-      // setUser(user.data) this is what we did before
       setLoggedIn(true)
     })
     .catch((err)=>{
       console.log(err.response.data)
-      // setUser(null)
       dispatch({
-        type:"NULL_USER",
+        type:"NULL_CUSTOMER",
       })
     })
 

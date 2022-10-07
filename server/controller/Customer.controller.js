@@ -14,7 +14,7 @@ const CustomerController = {
 
             const customerToken = jwt.sign({
                 id:customer._id
-            },process.env.JWT_KEY)
+            },process.env.FIRST_SECRET_KEY)
 
             res.cookie('customertoken',customerToken,{
                 httpOnly:true
@@ -25,9 +25,9 @@ const CustomerController = {
 
     login:(req, res)=>{
 
-        Customer.findOne({email:req.body.email})
+        Customer.findOne({username:req.body.username})
         .then((customer)=>{
-            const {_id,firstName,...other} = customer
+            const {_id,username,...other} = customer
             if(customer === null){
                 res.status(400)
             }
@@ -35,10 +35,10 @@ const CustomerController = {
             .then(()=>{
                 const customerToken = jwt.sign({
                     id:customer._id
-                },process.env.JWT_KEY)
+                },process.env.FIRST_SECRET_KEY)
                 res.cookie('customertoken',customerToken,{
                     httpOnly:true
-                }).json({customer:{id:_id,name:firstName}})
+                }).json({customer:{id:_id,username:username}})
             })
             .catch(()=>{
                 res.status(400)
@@ -50,7 +50,7 @@ const CustomerController = {
     },
     logout: (req, res) => {
         res.clearCookie('customertoken');
-        res.status(200).json({user:"Logged Out"})
+        res.status(200).json({customer:"Logged Out"})
         },
         getAll:(req,res)=>{
             Customer.find({})

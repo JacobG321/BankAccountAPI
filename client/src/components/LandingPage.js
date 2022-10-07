@@ -25,7 +25,7 @@ const LandingPage = ({setLoggedIn}) => {
   const submitHandler = (e)=>{
       e.preventDefault()
 
-      axios.post('http://localhost:8000/api/isLoggedIn',{
+      axios.post('http://localhost:8000/api/login',{
       username,
       password}
       ,{withCredentials:true})
