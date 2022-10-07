@@ -12,10 +12,6 @@ const checkingAccountSchema = new mongoose.Schema({
         type:Number,
         required:[true, "Account must have a number"]
     },
-    timestamps:{
-        dateOpened:created_at,
-        transaction:updated_at
-    },
     currentBalance:{
         type:Number
     },
@@ -26,7 +22,7 @@ const checkingAccountSchema = new mongoose.Schema({
         type:Number
     },
     transactions:[]
-})
+}, {timestamps:true})
 
 const CheckingAccount = mongoose.model('CheckingAccount', checkingAccountSchema)
 module.exports = CheckingAccount

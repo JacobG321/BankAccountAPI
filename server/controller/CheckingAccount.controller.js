@@ -1,5 +1,6 @@
 const CheckingAccount = require("../models/CheckingAccount.model")
 
+
 const CheckingAccountController = {
 
     // Create

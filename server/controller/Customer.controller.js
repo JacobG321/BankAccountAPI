@@ -24,7 +24,6 @@ const CustomerController = {
     },
 
     login:(req, res)=>{
-
         Customer.findOne({username:req.body.username})
         .then((customer)=>{
             const {_id,username,...other} = customer

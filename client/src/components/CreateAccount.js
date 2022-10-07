@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import {useNavigate} from "react-router-dom";
+import axios from 'axios';
 import NonUserNavBar from './NonUserNavBar'
 import styles from '../styles/CreateAccount.module.css'
-import axios from 'axios';
+import {CustomerContext} from '../context/CustomerContextProvider'
 
 
 
-const CreateAccount = () => {
+
+const CreateAccount = ({setLoggedIn}) => {
 
   const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
@@ -22,6 +24,8 @@ const CreateAccount = () => {
   const [addressBilling,setAddressBilling] = useState(null)
   const [billingSame, setBillingSame] = useState(true)
   const navigate= useNavigate()
+  const {state,dispatch} = useContext(CustomerContext);
+
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -62,7 +66,12 @@ const CreateAccount = () => {
       billingStateInput.value = ('')
       billingZipcodeInput.value = ('')
 
-      navigate('/accounts')
+    dispatch({
+      type:"SET_CUSTOMER",
+      payload:res.data.customer
+    })
+    setLoggedIn(true)
+    navigate('/accounts')
 
     })
     .catch(err=>{

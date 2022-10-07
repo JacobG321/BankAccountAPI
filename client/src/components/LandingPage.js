@@ -16,8 +16,6 @@ const LandingPage = ({setLoggedIn}) => {
 
 
   useEffect(()=>{
-      console.log("current state")
-      console.log(state)
       state.customer && navigate('/accounts')
     },[state.customer])
 
@@ -34,10 +32,7 @@ const LandingPage = ({setLoggedIn}) => {
               type:"SET_CUSTOMER",
               payload:res.data.customer
           })
-          
           setLoggedIn(true)
-          console.log("updated current state")
-          console.log(state)
           navigate('/accounts')
       })
       .catch((err)=>{
