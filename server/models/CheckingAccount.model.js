@@ -4,7 +4,10 @@ const mongoose = require('mongoose')
 
 const checkingAccountSchema = new mongoose.Schema({
 // transaction logic for deposit and payment
-
+    owner:{
+        type:String,
+        required:[true,"Account holder is required."]
+    },
     accountNumber:{
         type:Number,
         required:[true, "Account must have a number"]

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {useNavigate, Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import NonUserNavBar from './NonUserNavBar'
 import styles from '../styles/CreateAccount.module.css'
 import axios from 'axios';
@@ -21,11 +21,9 @@ const CreateAccount = () => {
   const [addressMailing,setAddressMailing] = useState({})
   const [addressBilling,setAddressBilling] = useState(null)
   const [billingSame, setBillingSame] = useState(true)
-
+  const navigate= useNavigate()
 
   const onSubmitHandler = (e) => {
-    console.log(addressBilling,"billing")
-    console.log(addressMailing,"mailing")
     e.preventDefault();
     axios.post('http://localhost:8000/api/customer', {
       firstName,
@@ -38,8 +36,8 @@ const CreateAccount = () => {
       phoneNumber,
       username,
       password,
-      confirmPassword
-    })
+      confirmPassword}, 
+      {withCredentials:true})
     .then(res=>{
       setFirstName('')
       setMiddleName('')
@@ -58,6 +56,13 @@ const CreateAccount = () => {
       cityInput.value = ('')
       stateInput.value = ('')
       zipcodeInput.value = ('')
+
+      billingStreetAddressInput.value = ('')
+      billingCityInput.value = ('')
+      billingStateInput.value = ('')
+      billingZipcodeInput.value = ('')
+
+      navigate('/accounts')
 
     })
     .catch(err=>{
