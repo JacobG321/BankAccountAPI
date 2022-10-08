@@ -5,7 +5,7 @@ import {CustomerContext} from '../context/CustomerContextProvider'
 
 
 
-const accountTypes = {checking:{currentBalance:0}, savings:{currentBalance:0, interestRate:0}}
+const accountTypes = {checking:{currentBalance:0}, savings:{currentBalance:0, interestRate:2}}
 
 
 
@@ -19,7 +19,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
   const [errors, setErrors] = useState([])
   const [isValid, setIsValid] = useState(false)
 
-  
+
   
   useEffect(()=>{
     if(!loggedIn){      
@@ -57,6 +57,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
     setAccountType(e)
   }
 
+  let newAccountTypeInput = document.getElementById('newAccountType')
   const newAccountHandler = (e)=>{
     e.preventDefault()
     axios.post('http://localhost:8000/api/createAccount',{
@@ -64,6 +65,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
     },{withCredentials:true})
     .then((res)=>{
       console.log(accountType)
+      newAccountTypeInput.value = ('')
     })
     .catch(err=>{
       const errorResponse = err.response.data.errors
@@ -95,8 +97,8 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
         <div>
           <h2>Open a new account</h2>
           <form onSubmit={newAccountHandler}>
-            <label htmlFor="accountType">Choose account type</label>
-            <select name="accountType" id="accountType" onChange={(e)=>accountTypeHandler(e.target.value)}>
+            <label htmlFor="newAccountType">Choose account type</label>
+            <select name="newAccountType" id="newAccountType" onChange={(e)=>accountTypeHandler(e.target.value)}>
               <option value="">Select an Account</option>
               <option value="checking">Checking</option>
               <option value="savings">Savings</option>
