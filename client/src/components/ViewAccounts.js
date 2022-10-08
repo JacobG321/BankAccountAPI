@@ -11,33 +11,38 @@ const accountTypes = {checking:{currentBalance:0}, savings:{currentBalance:0, in
 
 const ViewAccounts = ({loggedIn, setLoggedIn}) => {
   const [accounts, setAccounts] = useState([])
+  const [checkingAccounts, setCheckingAccounts] = useState([])
+  const [savingsAccounts, setSavingsAccounts] = useState([])
   const [accountType, setAccountType] = useState("")
   const {state,dispatch} = useContext(CustomerContext);
   const navigate = useNavigate()
   const [errors, setErrors] = useState([])
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [isValid, setIsValid] = useState(false)
 
-  // loader component, spinner thing, loading state ()
-  // authorizes users
+  
   
   useEffect(()=>{
     if(!loggedIn){      
       axios.get('http://localhost:8000/api/auth', {withCredentials:true, credentials:"include"})
       .then((res)=>{
-        setIsLoaded(true)
+        setIsValid(true)
         setLoggedIn(true)
-        setAccounts(res.data.accounts)
       })
       .catch((err)=>{
         navigate('/')
         setLoggedIn(false)
-
-
       })
     }else{
-      setIsLoaded(true)
+      setIsValid(true)
     }
-  },[])
+    axios.get('http://localhost:8000/api/allAccounts', {withCredentials:true, credentials:"include"})
+    .then((res)=>{
+      setAccounts([...res.data.accounts])
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  },[accounts])
 
   // logout
   const handleLogout = ()=>{
@@ -54,8 +59,6 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
 
   const newAccountHandler = (e)=>{
     e.preventDefault()
-    console.log({[accountType]:accountTypes}, "withoutAccoutType")
-    console.log({[accountType]:accountTypes[accountType]}, 'withit')
     axios.post('http://localhost:8000/api/createAccount',{
       [accountType]:accountTypes[accountType]
     },{withCredentials:true})
@@ -71,18 +74,26 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
       setErrors(errorArray)
   })
   }
+
+  const isLoaded = () =>{
+    if(!isValid || !accounts){
+      return false
+    }
+  }
+
   // replace null with loader
   return (
     <div>
     {
-      !isLoaded ? null :
+      isLoaded() ? null :
+      
 
       <div>
         <h1>Accounts</h1>
         <button onClick={handleLogout}>Logout</button>
 
         <div>
-          <h1>Open a new account</h1>
+          <h2>Open a new account</h2>
           <form onSubmit={newAccountHandler}>
             <label htmlFor="accountType">Choose account type</label>
             <select name="accountType" id="accountType" onChange={(e)=>accountTypeHandler(e.target.value)}>
@@ -93,6 +104,31 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
             <button type="submit">submit</button>
           </form>
         </div>
+
+          <table>
+            <thead>
+            </thead>
+            <tbody>
+              {
+                accounts.map((account,index)=>{
+                    if(!account.checking){
+                      return <tr key={index}>
+                      <td>Savings Account</td>
+                      <td>ID: {account._id}</td>
+                      <td>Current balance: ${account.currentBalance}</td>
+                      <td>Interest rate: {account.interestRate}%</td>
+                    </tr>
+                    }else{
+                      return <tr key={index}>
+                      <td>Checking Account</td>
+                      <td>ID: {account._id}</td>
+                      <td>Current balance: ${account.currentBalance}</td>
+                    </tr>
+                    }
+                })
+              }
+            </tbody>
+          </table>
       </div>
 
 

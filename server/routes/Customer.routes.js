@@ -22,10 +22,6 @@ const routes = (app) => {
     //get all
     app.get('/api/customers', CustomerController.getAll)
 
-
-
-    // use effect and axios post route to protect routes, {}, {withCredentials:true} to ensure login, use a catch to send em back.
-
 }
 
 
