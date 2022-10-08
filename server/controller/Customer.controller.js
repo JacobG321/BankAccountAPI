@@ -10,7 +10,7 @@ const CustomerController = {
     register: (req, res) => {
         Customer.create(req.body)
         .then((customer) => {
-            const {_id,firstName,...other} = customer
+            const {_id,username,...other} = customer
 
             const customerToken = jwt.sign({
                 id:customer._id
@@ -18,7 +18,7 @@ const CustomerController = {
 
             res.cookie('customertoken',customerToken,{
                 httpOnly:true
-            }).status(201).json({customer:{id:_id,name:firstName}})
+            }).status(201).json({customer:{id:_id,username:username}})
         })
         .catch(err => res.json(err));
     },

@@ -18,7 +18,7 @@ require('./config/mongoose.config');
 
 // routes
 require('./routes/Customer.routes')(app);
-require('./routes/CheckingAccount.routes')(app);
+require('./routes/Accounts.routes')(app);
 
 const server = app.listen(port,()=>{console.log(`server working on port ${port}`)})
 
