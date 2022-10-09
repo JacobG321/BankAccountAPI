@@ -12,8 +12,11 @@ const routes = (app) => {
     // get one
     app.get('/api/accounts/:id', authenticate, AccountsController.getOne)
 
+    // get one test
+    app.get('/test/accounts/:id', AccountsController.getOne)
+
     //Update
-    app.put('/api/accounts/:id', authenticate, AccountsController.update)
+    app.put('/api/accounts/:id', AccountsController.update)
 
     //Destroy
     app.delete('/api/accounts/:id', authenticate, AccountsController.delete)

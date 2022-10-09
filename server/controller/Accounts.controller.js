@@ -50,8 +50,9 @@ const AccountsController = {
 
     update:(req,res)=>{
         Accounts.findOneAndUpdate({_id:req.params.id},req.body,{new:true,runValidators:true})
-        .then((accounts)=>{
-            res.status(200).json({updatedAccounts:accounts})
+        .then((account)=>{
+            console.log(account)
+            res.status(200).json({updatedAccount:account})
         })
         .catch((err)=>{
             res.status(400).json(err)
