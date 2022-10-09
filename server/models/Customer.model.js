@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt');
+const Accounts = require('./Accounts.model');
 
 const customerSchema = new mongoose.Schema({
     firstName:{
@@ -94,7 +95,10 @@ const customerSchema = new mongoose.Schema({
         required:[true, 'Customer must have a password'],
         minLength:[8, 'Password must be at least 8 characters']
     },
-    accounts:{}
+    accounts:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Accounts'
+    }]
 })
 customerSchema.virtual('confirmPassword')
     .get( () => this._confirmPassword )

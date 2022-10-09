@@ -1,15 +1,28 @@
 const Accounts = require("../models/Accounts.model")
-// need to access who the account owner is
+const Customer = require("../models/Customer.model")
+const jwt = require("jsonwebtoken");
+
+
+
 
 
 
 const AccountsController = {
-
     // Create
-    create:(req,res) =>{
-        Accounts.create(req.body)
-        .then((accounts)=>{
-            res.status(201).json({accounts:accounts})
+    create:async (req,res) =>{
+        let newAccount = null
+        const decodedCookie = jwt.decode(req.cookies.customertoken, {complete:true})
+        await Accounts.create(req.body)
+        .then((account)=>{
+            newAccount = account
+        })
+        .catch((err)=>{
+            res.status(400).json(err)
+        })
+        
+        Customer.findOneAndUpdate({_id:decodedCookie.payload.id}, {$push:{accounts:newAccount._id}})
+        .then((customer)=>{
+            res.status(201).json({accounts:newAccount})
         })
         .catch((err)=>{
             res.status(400).json(err)

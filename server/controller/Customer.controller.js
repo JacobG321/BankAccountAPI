@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const Customer = require("../models/Customer.model")
+const Accounts = require("../models/Accounts.model")
 const bcrypt = require('bcrypt')
 
 
@@ -7,8 +8,17 @@ const bcrypt = require('bcrypt')
 const CustomerController = {
 
     // Create
-    register: (req, res) => {
-        Customer.create(req.body)
+    register: async (req, res) => {
+        const customer = new Customer(req.body)
+        await Accounts.create({checking:{currentBalance:0}})
+        .then((account)=>{
+            customer.accounts.push(account._id)
+        })
+        .catch((err)=>{
+            res.status(400).json(err)
+        })
+
+        customer.save()
         .then((customer) => {
             const {_id,username,...other} = customer
 
@@ -63,6 +73,7 @@ const CustomerController = {
 
     getAll:(req,res) =>{
         Customer.find({})
+        .populate('accounts')
         .then((customer)=>{
             res.status(200).json({customers:customer})
         })
@@ -71,7 +82,8 @@ const CustomerController = {
         })
     },
     getOne:(req,res)=>{
-        Customer.find({_id:req.params.id})
+        Customer.findOne({_id:req.params.id})
+        .populate('accounts')
         .then((customer)=>{
             res.status(200).json({customer:customer})
         })

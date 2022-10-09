@@ -7,24 +7,21 @@ import {CustomerContext} from '../context/CustomerContextProvider'
 
 const accountTypes = {checking:{currentBalance:0}, savings:{currentBalance:0, interestRate:2}}
 
-
-
 const ViewAccounts = ({loggedIn, setLoggedIn}) => {
   const [accounts, setAccounts] = useState([])
-  const [checkingAccounts, setCheckingAccounts] = useState([])
-  const [savingsAccounts, setSavingsAccounts] = useState([])
   const [accountType, setAccountType] = useState("")
   const {state,dispatch} = useContext(CustomerContext);
   const navigate = useNavigate()
   const [errors, setErrors] = useState([])
   const [isValid, setIsValid] = useState(false)
-
-
+  const [customer, setCustomer] = useState({})
   
   useEffect(()=>{
     if(!loggedIn){      
       axios.get('http://localhost:8000/api/auth', {withCredentials:true, credentials:"include"})
       .then((res)=>{
+        console.log(res.data.customer,"custo")
+        setCustomer(res.data.customer)
         setIsValid(true)
         setLoggedIn(true)
       })
@@ -35,14 +32,22 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
     }else{
       setIsValid(true)
     }
-    axios.get('http://localhost:8000/api/allAccounts', {withCredentials:true, credentials:"include"})
-    .then((res)=>{
-      setAccounts([...res.data.accounts])
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
-  },[accounts])
+    
+  },[])
+
+  // ?.id is an optional chaining
+  useEffect(()=>{
+    if(customer?.id){
+      axios.get(`http://localhost:8000/api/customer/${customer.id}`, {withCredentials:true, credentials:"include"})
+      .then((res)=>{
+        setAccounts(res.data.customer.accounts)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    }
+  }, [customer])
+
 
   // logout
   const handleLogout = ()=>{
@@ -57,14 +62,16 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
     setAccountType(e)
   }
 
+  // this is for resetting the input on creating a new account
   let newAccountTypeInput = document.getElementById('newAccountType')
   const newAccountHandler = (e)=>{
     e.preventDefault()
-    axios.post('http://localhost:8000/api/createAccount',{
-      [accountType]:accountTypes[accountType]
-    },{withCredentials:true})
+    axios.post('http://localhost:8000/api/createAccount',
+      {[accountType]:accountTypes[accountType]},
+      {withCredentials:true})
     .then((res)=>{
-      console.log(accountType)
+      console.log(res.data.accounts,"res")
+      setAccounts([...accounts,res.data.accounts])
       newAccountTypeInput.value = ('')
     })
     .catch(err=>{
@@ -75,7 +82,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
       }
       setErrors(errorArray)
   })
-  }
+}
 
   const isLoaded = () =>{
     if(!isValid || !accounts){
@@ -91,7 +98,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
       
 
       <div>
-        <h1>Accounts</h1>
+        <h1>Welcome {customer.username}</h1>
         <button onClick={handleLogout}>Logout</button>
 
         <div>
@@ -117,14 +124,14 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
                       return <tr key={index}>
                       <td>Savings Account</td>
                       <td>ID: {account._id}</td>
-                      <td>Current balance: ${account.currentBalance}</td>
-                      <td>Interest rate: {account.interestRate}%</td>
+                      <td>Current balance: ${account.savings.currentBalance}</td>
+                      <td>Interest rate: {account.savings.interestRate}%</td>
                     </tr>
                     }else{
                       return <tr key={index}>
                       <td>Checking Account</td>
                       <td>ID: {account._id}</td>
-                      <td>Current balance: ${account.currentBalance}</td>
+                      <td>Current balance: ${account.checking.currentBalance}</td>
                     </tr>
                     }
                 })

@@ -1,10 +1,9 @@
-import {useState, useEffect, useContext} from 'react'
+import {useState} from 'react'
 import CreateAccount from "./components/CreateAccount";
 import ViewAccounts from "./components/ViewAccounts";
 import LandingPage from "./components/LandingPage"
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import axios from 'axios'
-import {CustomerContext} from './context/CustomerContextProvider'
+
 
 
 

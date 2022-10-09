@@ -19,6 +19,9 @@ const routes = (app) => {
     //Update
     app.put('/api/customer/:id', CustomerController.update)
 
+    //get one
+    app.get('/api/customer/:id', CustomerController.getOne)
+
     //get all
     app.get('/api/customers', CustomerController.getAll)
 
