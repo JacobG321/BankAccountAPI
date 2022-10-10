@@ -1,13 +1,18 @@
 .outside{
-    width: 100%;
+    width: 100vw;
+    height: 100vh;
     justify-content: center;
     display: flex;
+    background-color: aliceblue;
+    
 }
 .container {
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content: space-between; */
     width: 100%;
-    border: solid;
+    /* border: solid; */
+    background-color: aliceblue;
+
 }
 
 .header {
@@ -19,10 +24,12 @@
 
 .accounts{
     display: flex;
-    border: solid red;
-    width: 60%;
+    /* border: solid red; */
+    width: 100%;
     flex-direction: column;
     justify-content: left;
+    background-color: aliceblue;
+
 }
 
 
@@ -30,17 +37,57 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: solid green;
+    border: solid  2px lightgray;
     padding: 10px;
     text-align: center;
+    margin-bottom: 5px;
 }
 
 .accountActions {
-    width: 40%;
+    width: 100%;
+    background-color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.openAccount {
+.accountActions form {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     text-align: center;
+    margin-bottom: 10px;
+    border: solid  2px lightgray;
+    padding: 10px;
 }
 
+.accountActions label{
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
+.transfersDiv {
+    display: flex;
+    flex-direction: column;
+}
+
+.transfersDiv select{
+    margin-bottom: 10px;
+}
+
+.openAccountDiv {
+    text-align: center;
+    border: solid  2px lightgray;
+    padding: 10px;
+
+}
+
+.bankAccountHeader {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.logoutBTN {
+    
+}
 

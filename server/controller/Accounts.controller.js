@@ -2,11 +2,6 @@ const Accounts = require("../models/Accounts.model")
 const Customer = require("../models/Customer.model")
 const jwt = require("jsonwebtoken");
 
-
-
-
-
-
 const AccountsController = {
     // Create
     create:async (req,res) =>{
