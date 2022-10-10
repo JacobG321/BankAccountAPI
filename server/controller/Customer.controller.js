@@ -30,7 +30,9 @@ const CustomerController = {
                 httpOnly:true
             }).status(201).json({customer:{id:_id,username:username}})
         })
-        .catch(err => res.json(err));
+        .catch((err)=>{
+            res.status(400).json(err)
+        })
     },
 
     login:(req, res)=>{
@@ -54,7 +56,7 @@ const CustomerController = {
             })
         })
         .catch((err)=>{
-            res.status(400).json({msg:"something went wrong",error:err})
+            res.status(400).json(err)
         })
     },
     logout: (req, res) => {

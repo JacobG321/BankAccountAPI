@@ -131,9 +131,9 @@ const CreateAccount = ({setLoggedIn}) => {
       <NonUserNavBar/>
       <div className={styles.createContainer}>
 
-        <h1>New Jase account</h1>
         {errors.map((err, index) => <p className={styles.error} key={index}>{err}</p>)}
           <form onSubmit={onSubmitHandler} className={styles.form}>
+        <h1>New Jase account</h1>
             <div className={styles.personInfo}>
               <div className={styles.labels}>
                 <label htmlFor="firstName">First name</label>

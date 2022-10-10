@@ -1,5 +1,6 @@
 .createContainer {
     text-align: center;
+
 }
 
 .form {
@@ -7,6 +8,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 75px;
 }
 
 .radioBtns {
@@ -46,4 +48,8 @@
 
 .inputs input {
     margin-bottom: 5px;
+}
+
+.error{
+    color: red;
 }

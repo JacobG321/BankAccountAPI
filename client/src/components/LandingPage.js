@@ -13,6 +13,7 @@ const LandingPage = ({setLoggedIn}) => {
   const {state,dispatch} = useContext(CustomerContext);
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [errorUser, setErrorUser] = useState("")
 
 
   useEffect(()=>{
@@ -22,24 +23,30 @@ const LandingPage = ({setLoggedIn}) => {
 
   const submitHandler = (e)=>{
       e.preventDefault()
-
-      axios.post('http://localhost:8000/api/login',{
-      username,
-      password}
-      ,{withCredentials:true})
-      .then((res)=>{
-          dispatch({
-              type:"SET_CUSTOMER",
-              payload:res.data.customer
+      if(!username){
+        return setErrorUser(<p className={styles.errorColor}>Please enter username.</p>)
+      }if(!password){
+        return setErrorUser(<p className={styles.errorColor}>Please enter password.</p>)
+      }else{
+        setErrorUser('')
+        axios.post('http://localhost:8000/api/login',{
+          username,
+          password}
+          ,{withCredentials:true})
+          .then((res)=>{
+              dispatch({
+                  type:"SET_CUSTOMER",
+                  payload:res.data.customer
+              })
+              setLoggedIn(true)
+              navigate('/accounts')
           })
-          setLoggedIn(true)
-          navigate('/accounts')
-      })
-      .catch((err)=>{
-          console.log(err)
-      })
+          .catch((err)=>{
+              // console.log(err)
+          })
+      }
   }
-
+  
 
   return (
     <div className={styles.landingPageContainer}>
@@ -61,8 +68,8 @@ const LandingPage = ({setLoggedIn}) => {
 
         <div className={styles.rightSide}>
           <h2>Welcome back</h2>
+          {errorUser}
           <form onSubmit={submitHandler}>
-
               <label className={styles.inputFieldLabel} htmlFor="username">Username</label>
             <div>
               <input type="text" name="username" id="username" value={username} onChange = {(e)=>setUsername(e.target.value)}/>
