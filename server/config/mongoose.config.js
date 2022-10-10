@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 
 mongoose
-    .connect("mongodb://127.0.0.1/BankAccountApp2",     
+    .connect("mongodb://127.0.0.1/BankAccountApp4",     
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,

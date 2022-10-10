@@ -59,6 +59,26 @@ const AccountsController = {
         })
     },
 
+    transfer: async (req,res)=>{
+        const sendingAccountString = `${req.body.sendAccountType}.currentBalance`
+        const receivingAccountString = `${req.body.receiveAccountType}.currentBalance`
+        let updatedSenderAccount = null
+        await Accounts.findOneAndUpdate({_id:req.body.sendAccount},{ $inc:{[sendingAccountString]:-req.body.sendAmount} },{new:true})
+        .then((account)=>{
+            updatedSenderAccount=account
+        })
+        .catch((err)=>{
+            res.status(400).json(err)
+        })
+        Accounts.findOneAndUpdate({_id:req.body.receiveAccount},{ $inc:{[receivingAccountString]:req.body.sendAmount} },{new:true})
+        .then((account)=>{
+            res.status(200).json({updatedReceiverAccount:account, updatedSenderAccount})
+        })
+        .catch((err)=>{
+            res.status(400).json(err)
+        })
+    },
+
     // Delete
     delete:(req,res)=>{
         Accounts.findOneAndDelete({_id:req.params.id})

@@ -14,9 +14,13 @@ const routes = (app) => {
 
     // get one test
     app.get('/test/accounts/:id', AccountsController.getOne)
+    
+    // transfer
+    app.put('/api/accounts/transfer', AccountsController.transfer)
 
     //Update
     app.put('/api/accounts/:id', AccountsController.update)
+
 
     //Destroy
     app.delete('/api/accounts/:id', authenticate, AccountsController.delete)

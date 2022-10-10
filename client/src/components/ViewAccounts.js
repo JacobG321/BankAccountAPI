@@ -12,16 +12,19 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
   const [accountType, setAccountType] = useState("")
   const {state,dispatch} = useContext(CustomerContext);
   const navigate = useNavigate()
-  const [errors, setErrors] = useState([])
   const [isValid, setIsValid] = useState(false)
   const [customer, setCustomer] = useState({})
   const [depositAmount, setDepositAmount] = useState(0)
   const [depositAccount, setDepositAccount] = useState('')
   const [withdrawalAmount, setWithdrawlAmount] = useState(0)
   const [withdrawalAccount, setWithdrawalAccount] = useState('')
-  const [newBalance,setNewBalance] = useState(0)
-  
-  // on load, checks if logged in and sets isValid, isLogged in, and customer(customer is used to access accounts for that one customer)
+  const [newBalanceWithdrawal,setNewBalanceWithdrawal] = useState(0)
+  const [newBalanceDeposit,setNewBalanceDeposit] = useState(0)
+  const [receiveAccount, setReceiveAccount] = useState('')
+  const [sendAccount, setSendAccount] = useState('')
+  const [sendAmount, setSendAmount] = useState(0)
+  const [error, setError] = useState("")
+
   useEffect(()=>{
     if(!loggedIn){      
       axios.get('http://localhost:8000/api/auth', {withCredentials:true, credentials:"include"})
@@ -83,14 +86,27 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
       newAccountTypeInput.value = ('')
     })
     .catch(err=>{
-      const errorResponse = err.response.data.errors
-      const errorArray = []
-      for (const key of Object.keys(errorResponse)) {
-          errorArray.push(errorResponse[key].message)
-      }
-      setErrors(errorArray)
+      console.log(err)
   })
 }
+
+  // DELETE
+  const deleteHandler = (e) =>{
+    let temp = e.target.value
+    
+    if(accounts.length<=1){
+      return setError("You must have at least one bank account!")
+    }else{
+      axios.delete(`http://localhost:8000/api/accounts/${temp}`,{withCredentials:true, credentials:"include"})
+      .then((res)=>{
+        setError('')
+      })
+      .catch((err)=>{
+      })
+    }
+    return temp
+  }
+
 
   // makes sure user is valid and accounts are loaded
   const isLoaded = () =>{
@@ -100,21 +116,21 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
   } 
 
   // update a single balance
-  const newBal = {checking:{currentBalance:newBalance}}
+  const newBalDeposit = {checking:{currentBalance:newBalanceDeposit}}
 
   // deposit
   const depositHandler = (e) => {
     e.preventDefault()
     accounts.map((account,index)=>{
       if(account._id === depositAccount){
-        setNewBalance(account.checking.currentBalance+=Number(depositAmount))
+        setNewBalanceDeposit(account.checking.currentBalance+=Number(depositAmount))
       }
     })
   }
 
   // deposit Check if newBalance state is not 0
-  if(newBalance){
-    axios.put(`http://localhost:8000/api/accounts/${depositAccount}`,newBal)
+  if(newBalanceDeposit){
+    axios.put(`http://localhost:8000/api/accounts/${depositAccount}`,newBalDeposit)
     .then((res)=>{
     })
     .catch((err)=>{
@@ -122,19 +138,23 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
     })
   }
   
-  // Withdraw
+
+
+  const newBalWithdrawal = {checking:{currentBalance:newBalanceWithdrawal}}
+
+  // Withdrawal
   const withdrawalHandler = (e) => {
     e.preventDefault()
     accounts.map((account,index)=>{
       if(account._id === withdrawalAccount){
-        setNewBalance(account.checking.currentBalance-=Number(withdrawalAmount))
+        setNewBalanceWithdrawal(account.checking.currentBalance-=Number(withdrawalAmount))
       }
     })
   }
 
   // Withdrawal Check if newBalance state is not 0
-  if(newBalance){
-    axios.put(`http://localhost:8000/api/accounts/${withdrawalAccount}`,newBal)
+  if(newBalanceWithdrawal){
+    axios.put(`http://localhost:8000/api/accounts/${withdrawalAccount}`,newBalWithdrawal)
     .then((res)=>{
     })
     .catch((err)=>{
@@ -143,12 +163,48 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
   }
 
 
-  const transferHandler = (e) =>{
+  // sendAccount, receiveAccount, sendAmount
+
+  const transferHandler = (e) => {
     e.preventDefault()
+    console.log(accounts)
+    const sendingAccount = accounts.find(account=>account._id==sendAccount)
+    const receivingAccount = accounts.find(account=>account._id==receiveAccount)
+    let sendAccountType
+    let receiveAccountType
+    if("savings" in sendingAccount){
+      sendAccountType="savings"
+    }else{
+      sendAccountType="checking"
+    }
+    if("savings" in receivingAccount){
+      receiveAccountType="savings"
+    }else{
+      receiveAccountType="checking"
+    }
 
+    axios.put("http://localhost:8000/api/accounts/transfer",{
+      sendAccount,
+      receiveAccount,
+      sendAccountType,
+      receiveAccountType,
+      sendAmount
+    })
+    .then((res)=>{
+      const newAccounts = accounts.map(account=>{
+        if(account._id === res.data.updatedSenderAccount._id){
+          account=res.data.updatedSenderAccount
+        }else if(account._id===res.data.updatedReceiverAccount._id){
+          account=res.data.updatedReceiverAccount
+        }
+        return account
+      })
+      setAccounts([...newAccounts])
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
   }
-
-
 
   // replace null with loader
   return (
@@ -176,6 +232,8 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
         </div>
 
               {/* display all accounts */}
+
+              {error}
               {
                 accounts.map((account,index)=>{
                     if(!account.checking){
@@ -183,22 +241,25 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
                         <h2>Savings Account {account._id}</h2>
                         <p>Current balance: ${account.savings.currentBalance}</p>
                         <p>Interest rate: {account.savings.interestRate}%</p>
+                        <button  value={account._id} onClick={deleteHandler}>Delete account</button>
                     </div>
                     }else{ 
                       return <div key={index}>
                           <h2>Checking Account {account._id}</h2>
                           <p>Current balance: ${account.checking.currentBalance}</p>
-                              </div>
+                          <button  value={account._id} onClick={deleteHandler}>Delete account</button>
+                          </div>
                           }
                     })
               }
+
 
                 {/* deposit */}
                 <form onSubmit={depositHandler}>
                   <h2>Deposit</h2>
                   <label htmlFor="account_id">Choose account</label>
                   <select onChange={(e)=>setDepositAccount(e.target.value)} name="account_id" id="account_id">
-                    <option value="blah">Choose an account</option>
+                    <option value="default">Choose an account</option>
                     {
                       accounts.map((account,index)=>{
                         if(account.checking){
@@ -219,7 +280,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
                   <h2>Withdraw</h2>
                   <label htmlFor="account_id">Choose account</label>
                   <select onChange={(e)=>setWithdrawalAccount(e.target.value)} name="account_id" id="account_id">
-                    <option value="blah">Choose an account</option>
+                    <option value="default">Choose an account</option>
                     {
                       accounts.map((account,index)=>{
                         if(account.checking){
@@ -239,36 +300,45 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
                 <h2>Transfer</h2>
 
                 {/* transfer from */}
+
                 <label htmlFor="account_id_send">Transfer from</label>
-                <select onChange={(e)=>setWithdrawalAccount(e.target.value)} name="account_id_send" id="account_id_send">
-                  <option value="blah">Choose an account</option>
+                <select onChange={(e)=>setSendAccount(e.target.value)} name="account_id_send" id="account_id_send">
+                  <option value="default">Choose an account</option>
                   {
                     accounts.map((account,index)=>{
                       if(account.checking){
                         let str = account._id
                         let shorten = str.slice(str.length-5, str.length)
                         return <option id={index} value={account._id} >Checking ...{shorten}</option>
+                      }else{
+                        let str = account._id
+                        let shorten = str.slice(str.length-5, str.length)
+                        return <option id={index} value={account._id} >Savings ...{shorten}</option>
                       }
                     })
                   }
                 </select>
 
-                {/* transfer */}
+                {/* transfer to */}
                 <label htmlFor="account_id_receive">Transfer to</label>
-                <select onChange={(e)=>setWithdrawalAccount(e.target.value)} name="account_id_receive" id="account_id_receive">
-                  <option value="blah">Choose an account</option>
+                <select onChange={(e)=>setReceiveAccount(e.target.value)} name="account_id_receive" id="account_id_receive">
+                  <option value="default">Choose an account</option>
                   {
                     accounts.map((account,index)=>{
                       if(account.checking){
                         let str = account._id
                         let shorten = str.slice(str.length-5, str.length)
                         return <option id={index} value={account._id} >Checking ...{shorten}</option>
+                      }else{
+                        let str = account._id
+                        let shorten = str.slice(str.length-5, str.length)
+                        return <option id={index} value={account._id} >Savings ...{shorten}</option>
                       }
                     })
                   }
                 </select>
-                <label htmlFor="withdrawalAmount">Amount</label>
-                <input type="number" name='withdrawalAmount' value={withdrawalAmount} onChange={(e)=>setWithdrawlAmount(e.target.value)}/>
+                <label htmlFor="sendAmount">Amount</label>
+                <input type="number" name='sendAmount' value={sendAmount} onChange={(e)=>setSendAmount(e.target.value)}/>
                 <button type="submit">Transfer</button>
               </form>
       </div>
