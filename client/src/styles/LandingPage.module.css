@@ -19,7 +19,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background-color: black;
+    background-color:rgb(96, 112, 126);
     opacity: 0.8;
 }
 
@@ -92,6 +92,18 @@
     color: white;
     font-size: 18px;
     cursor: pointer;
+}
+
+.rightSide form button:hover{
+    background: rgba(0, 0, 0);
+    color: white;
+    transition: 0.3s;
+}
+
+.leftSide button:hover{
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    transition: 0.3s;
 }
 
 .errorColor {

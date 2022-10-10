@@ -95,7 +95,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
     let temp = e.target.value
     
     if(accounts.length<=1){
-      return setError("You must have at least one bank account!")
+      return setError(<p className={styles.error}>You must have at least one bank account!</p>)
     }else{
       axios.delete(`http://localhost:8000/api/accounts/${temp}`,{withCredentials:true, credentials:"include"})
       .then((res)=>{
@@ -234,7 +234,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
                             <h3>Savings (...{shorten})</h3>
                           </div>
                             <p>Current balance: ${account.savings.currentBalance}</p>
-                            <button  value={account._id} onClick={deleteHandler}>Close account</button>
+                            <button className={styles.closeAccountBTN}  value={account._id} onClick={deleteHandler}>Close account</button>
                       </div>
                       }else{
                         let str = account._id
@@ -242,12 +242,13 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
                         return <div className={styles.accountSingle} key={index}>
                             <h3>Checking (...{shorten})</h3>
                             <p>Current balance: ${account.checking.currentBalance}</p>
-                            <button  value={account._id} onClick={deleteHandler}>Close account</button>
+                            <button className={styles.closeAccountBTN} value={account._id} onClick={deleteHandler}>Close account</button>
                             </div>
                             }
                       })
                 }
               </div>
+              <h2 className={styles.accountActionsH2}>Account Actions</h2>
               <div className={styles.accountActions}>
                   {/* deposit */}
                   <form onSubmit={depositHandler}>
@@ -271,7 +272,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
                         <label htmlFor="depositAmount">Amount</label>
                         <input type="number" name='depositAmount' value={depositAmount} onChange={(e)=>setDepositAmount(e.target.value)}/>
                     </div>
-                    <button type="submit">Deposit</button>
+                    <button className={styles.accountActionsBTN}type="submit">Deposit</button>
                   </form>
 
                   {/* withdrawal */}
@@ -296,7 +297,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
                         <label htmlFor="withdrawalAmount">Amount</label>
                         <input type="number" name='withdrawalAmount' value={withdrawalAmount} onChange={(e)=>setWithdrawlAmount(e.target.value)}/>
                     </div>
-                    <button type="submit">Withdraw</button>
+                    <button className={styles.accountActionsBTN} type="submit">Withdraw</button>
                   </form>
 
                   <form onSubmit={transferHandler}>
@@ -343,7 +344,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
                   </div>
                   <label htmlFor="sendAmount">Amount</label>
                   <input type="number" name='sendAmount' value={sendAmount} onChange={(e)=>setSendAmount(e.target.value)}/>
-                  <button type="submit">Transfer</button>
+                  <button className={styles.accountActionsBTN} type="submit">Transfer</button>
                 </form>
                 </div>
               </div>
@@ -357,7 +358,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
                       <option value="checking">Checking</option>
                       <option value="savings">Savings</option>
                     </select>
-                    <button type="submit">submit</button>
+                    <button className={styles.accountActionsBTN} type="submit">submit</button>
                   </form>
                 </div>
       </div>

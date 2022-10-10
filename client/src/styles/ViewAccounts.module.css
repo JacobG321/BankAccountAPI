@@ -24,12 +24,12 @@
 
 .accounts{
     display: flex;
-    /* border: solid red; */
     width: 100%;
     flex-direction: column;
     justify-content: left;
     background-color: aliceblue;
-
+    margin-bottom: 15px;
+    margin-top: 10px;
 }
 
 
@@ -88,6 +88,68 @@
 }
 
 .logoutBTN {
-    
+    margin-top: 10px;
+    width: 15%;
+    border-radius: 25px;
+    border: solid black 1px;
+    padding: 5px;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
 }
 
+.logoutBTN:hover {
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    transition: 0.3s;
+}
+
+.closeAccountBTN {
+    margin-top: 10px;
+    border-radius: 25px;
+    border: solid black 1px;
+    padding: 5px;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.closeAccountBTN:hover {
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    transition: 0.3s;
+}
+
+.accountActionsBTN {
+    margin-top: 10px;
+    border-radius: 25px;
+    border: solid black 1px;
+    padding: 5px;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.accountActionsBTN:hover{
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    transition: 0.3s;
+}
+
+.container input {
+    width: 65px;
+    margin-right: 20px;
+}
+
+.accountActionsH2{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.error {
+    text-align: center;
+    color: red;
+}

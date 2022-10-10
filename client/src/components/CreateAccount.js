@@ -137,9 +137,9 @@ const CreateAccount = ({setLoggedIn}) => {
             <div className={styles.personInfo}>
               <div className={styles.labels}>
                 <label htmlFor="firstName">First name</label>
-                <label htmlFor="middleName">Middle name (optional)</label>
+                <label htmlFor="middleName">Middle name</label>
                 <label htmlFor="lastName">Last name</label>
-                <label htmlFor="socialSecurityNumber">Social Security Number</label>
+                <label htmlFor="socialSecurityNumber">SSN</label>
                 <label htmlFor="email">Email</label>
                 <label htmlFor="phoneNumber">Phone number</label>
               </div>
