@@ -179,7 +179,7 @@
     }
     .container2 {
         width: 93%;
-        height: 75%;
+        height: 80%;
     }
 
 
@@ -210,5 +210,13 @@
 
     .accountActions h3 {
         font-size: 17px;
+    }
+
+    .openAccountDiv select {
+        margin-right: 0px;
+    }
+    
+    .openAccountDiv label {
+        margin-right: 0px;
     }
 }
