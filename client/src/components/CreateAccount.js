@@ -123,17 +123,14 @@ const CreateAccount = ({setLoggedIn}) => {
     setAddressBilling({...addressBilling,zipcode:e})
   }
 
-
-
   return (
 
     <div>
       <NonUserNavBar/>
       <div className={styles.createContainer}>
-
-        {errors.map((err, index) => <p className={styles.error} key={index}>{err}</p>)}
-          <form onSubmit={onSubmitHandler} className={styles.form}>
+          <form onSubmit={onSubmitHandler} className={billingSame ? styles.form:styles.formLonger}>
         <h1>New Jase account</h1>
+        {errors.map((err, index) => <p className={styles.error} key={index}>{err}</p>)}
             <div className={styles.personInfo}>
               <div className={styles.labels}>
                 <label htmlFor="firstName">First name</label>
@@ -218,6 +215,7 @@ const CreateAccount = ({setLoggedIn}) => {
             </div>
             <button type="submit">Submit information</button>
           </form>
+
       </div>
     </div>
   )

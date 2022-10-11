@@ -1,7 +1,7 @@
 .createContainer {
     text-align: center;
     background-color: aliceblue;
-    height: 100vh;
+    height: 200vh;
     justify-content: center;
     display: flex;
 }
@@ -16,7 +16,22 @@
     border: solid 1px;
     border-radius: 25px;
     /* width: 30%; */
-    height: 700px;
+    height: 850px;
+    /* height: 60%; */
+    margin-top: 150px;
+}
+
+.formLonger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 75px;
+    background-color: white;
+    border: solid 1px;
+    border-radius: 25px;
+    /* width: 30%; */
+    height: 1055px;
     /* height: 60%; */
     margin-top: 150px;
 }
@@ -76,7 +91,21 @@
         border: solid 1px;
         border-radius: 25px;
         width: 75%;
-        height: 700px;
+        height: 940px;
+        margin-top: 85px;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 75px;
+        background-color: white;
+        border: solid 1px;
+        border-radius: 25px;
+        width: 75%;
+        height: 1100px;
         margin-top: 85px;
     }
 
