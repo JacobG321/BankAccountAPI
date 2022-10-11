@@ -229,19 +229,31 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
                       if(!account.checking){
                         let str = account._id
                         let shorten = str.slice(str.length-5, str.length)
+                        let negativeBalance
+                        if(account.savings.currentBalance<0){
+                          negativeBalance=<p>Current balance: <span className={styles.negativeBalance}>${account.savings.currentBalance}</span></p>
+                        }else{
+                          negativeBalance = <p>Current balance: ${account.savings.currentBalance}</p>
+                        }
                         return <div className={styles.accountSingle} key={index}>
                           <div>
                             <h3>Savings (...{shorten})</h3>
                           </div>
-                            <p>Current balance: ${account.savings.currentBalance}</p>
+                            {negativeBalance}
                             <button className={styles.closeAccountBTN}  value={account._id} onClick={deleteHandler}>Close account</button>
                       </div>
                       }else{
                         let str = account._id
                         let shorten = str.slice(str.length-5, str.length)
+                        let negativeBalance
+                        if(account.checking.currentBalance<0){
+                          negativeBalance=<p>Current balance: <span className={styles.negativeBalance}>${account.checking.currentBalance}</span></p>
+                        }else{
+                          negativeBalance = <p>Current balance: ${account.checking.currentBalance}</p>
+                        }
                         return <div className={styles.accountSingle} key={index}>
                             <h3>Checking (...{shorten})</h3>
-                            <p>Current balance: ${account.checking.currentBalance}</p>
+                            {negativeBalance}
                             <button className={styles.closeAccountBTN} value={account._id} onClick={deleteHandler}>Close account</button>
                             </div>
                             }
