@@ -26,7 +26,7 @@ const NonUserNavBar = () => {
         </ul>
         <div className={styles.hamburger} onClick={handleClick}>
             {
-                (<FaBars size={20} style={{color:'#fff'}}/>)
+                click ? (<FaBars size={20} style={{color:'black'}}/>):(<FaTimes size={20} style={{color:'white'}}/>)
             }
         </div>
     </div>
