@@ -3,15 +3,18 @@
     height: 100vh;
     justify-content: center;
     display: flex;
-    background-color: aliceblue;
-    
+    background-color: rgba(153, 156, 157, 0.148);
 }
 .container {
-    /* display: flex;
-    justify-content: space-between; */
     width: 100%;
-    /* border: solid; */
-    background-color: aliceblue;
+    background-color: white;
+}
+
+.container2 {
+    border: solid 2px;
+    border-radius: 25px;
+    padding: 5px;
+    background-color: white;
 
 }
 
@@ -19,7 +22,7 @@
     display: flex;
     justify-content: space-around;
     padding: 10px;
-    
+    border-bottom: solid 2px;
 }
 
 .accounts{
@@ -27,7 +30,7 @@
     width: 100%;
     flex-direction: column;
     justify-content: left;
-    background-color: aliceblue;
+    background-color: white;
     margin-bottom: 15px;
     margin-top: 10px;
 }
@@ -41,11 +44,13 @@
     padding: 10px;
     text-align: center;
     margin-bottom: 5px;
+    background-color: aliceblue;
+
 }
 
 .accountActions {
     width: 100%;
-    background-color: aliceblue;
+    background-color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -58,6 +63,7 @@
     text-align: center;
     margin-bottom: 10px;
     border: solid  2px lightgray;
+    background-color: aliceblue;
     padding: 10px;
 }
 
@@ -79,7 +85,7 @@
     text-align: center;
     border: solid  2px lightgray;
     padding: 10px;
-
+    background-color: aliceblue;
 }
 
 .bankAccountHeader {
@@ -152,4 +158,45 @@
 .error {
     text-align: center;
     color: red;
+}
+
+
+@media only screen and (max-width:640px){
+    .outside {
+        height: 1400px;
+    }
+    .container2 {
+        width: 93%;
+        height: 75%;
+    }
+
+
+    .container2 h1 {
+        font-size: 30px;
+    }
+
+    .logoutBTN, .closeAccountBTN, .accountActionsBTN {
+        font-size: 12px;
+    }
+
+    .accountActions form {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 10px;
+        border: solid  2px lightgray;
+        background-color: aliceblue;
+        padding: 10px;
+    }
+    
+    .accountActions label{
+        margin-right:3px;
+        margin-left: 0px;
+    }
+
+    .accountActions h3 {
+        font-size: 17px;
+    }
 }

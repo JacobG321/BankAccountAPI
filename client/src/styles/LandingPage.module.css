@@ -109,3 +109,37 @@
 .errorColor {
     color: red;
 }
+
+
+@media only screen and (max-width:640px){
+
+    .landingPageContent{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        text-align: center;
+        height: 80%;
+        width: 100%;
+    }
+    .leftSide {
+        width: 100%;
+        position: absolute;
+        transform: translate(-35%, 20%);
+        top: 0%;
+        left: 35%;
+    }
+    .leftSide h2 {
+        font-size: 30px;
+    }
+
+    .rightSide {
+        position: absolute;
+        transform: translate(-35%, 100%);
+        top: 0%;
+        left: 35%;
+    }
+}

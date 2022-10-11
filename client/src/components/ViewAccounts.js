@@ -213,7 +213,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
     <div className={styles.outside}>
     {
       isLoaded() ? null :
-      <div>
+      <div className={styles.container2}>
 
         <div className={styles.header}>
           <h1>Welcome {customer.username}</h1>
