@@ -13,8 +13,6 @@ app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 // config
 require('./config/mongoose.config');
 
-// models
-
 // routes
 require('./routes/Customer.routes')(app);
 require('./routes/Accounts.routes')(app);

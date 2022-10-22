@@ -116,8 +116,8 @@ customerSchema.pre('save', function(next) {
         .then(hash => {
             this.password = hash;
             next();
-          });
-      });
+        });
+    });
 
 const Customer = mongoose.model('Customer', customerSchema)
 module.exports = Customer

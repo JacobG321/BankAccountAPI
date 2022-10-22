@@ -167,7 +167,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
 
   const transferHandler = (e) => {
     e.preventDefault()
-    console.log(accounts)
+
     const sendingAccount = accounts.find(account=>account._id==sendAccount)
     const receivingAccount = accounts.find(account=>account._id==receiveAccount)
     let sendAccountType
@@ -206,7 +206,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
     })
   }
 
-  // replace null with loader
+
   return (
     <div className={styles.outside}>
     {
