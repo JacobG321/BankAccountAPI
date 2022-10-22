@@ -1,6 +1,5 @@
 # Jase bank app
 
-## Description
 This is a bank app inpsired by the Chase bank app (I just added a j to it because my name is Jacob). You have the ability to create a user and bank accounts with that user.
 The funds in the bank accounts are able to be transferred between themselves and the accounts are able to be closed.
 
