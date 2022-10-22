@@ -3,7 +3,7 @@
 <p>This is a bank app inpsired by the Chase Bank app (I just added a j to it because my name is Jacob). You have the ability to create a user and bank accounts with that user.
 The funds in the bank accounts are able to be transferred between themselves and the bank accounts are able to be closed.
 </p>
-<p>The biggest issue I ran into developing this app was my database. Instead of giving checking and savings accounts their own models, routes and controllers, I put them together in the same model. This was a mistake and difficult to work around. However, I do believe it allowed me to dive deeper into React and MongoDB to come up with solutions for creating, reading, updating and deleting information within the app.</p>
+<p>The biggest issue I ran into developing this app was my database. Instead of giving checking and savings accounts their own models, routes, and controllers, I put them together in the same model. This was a mistake and difficult to work around. However, I do believe it allowed me to dive deeper into React and MongoDB to come up with solutions for creating, reading, updating and deleting information within the app.</p>
 
 ## Technologies
 + React.js
