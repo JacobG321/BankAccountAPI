@@ -32,7 +32,6 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
   useEffect(()=>{
       axios.get('http://localhost:8000/api/auth', {withCredentials:true, credentials:"include"})
       .then((res)=>{
-        console.log('======got bank accounts')
         setCustomer(res.data.customer)
         setIsValid(true)
       })
@@ -43,7 +42,6 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
     setAccountsUpdated(false)
   },[accountsUpdated])
 
-  console.log(accountsUpdated)
   // ?.id is an optional chaining
   useEffect(()=>{
     if(customer?.id){
@@ -161,7 +159,7 @@ const ViewAccounts = ({loggedIn, setLoggedIn}) => {
     })
     .catch((err)=>{
       console.log(err)
-    })
+    })    
   }
 
 
